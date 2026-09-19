@@ -11,6 +11,24 @@ Astro handles everything in the UI: pages, layouts, components, routing, and con
 
 ### Component Structure
 
+### Component Documentation
+
+- Every reusable component must document its `Props` interface in frontmatter with a concise description for the component contract.
+- Add a property comment for each prop whose meaning, accepted values, default, or required/optional status is not obvious from its type.
+- Use comments to explain intent or constraints, not to narrate markup or restate a prop name.
+
+```astro
+---
+/** Displays a game card with its title, metadata, and destination link. */
+interface Props {
+    /** Game data rendered by the card. */
+    game: Game;
+    /** Optional link target; defaults to the game's detail route. */
+    href?: string;
+}
+---
+```
+
 ```astro
 ---
 // Frontmatter: runs at build time (static output)
@@ -111,6 +129,7 @@ There is no Svelte/React layer. When a page genuinely needs client behaviour, ad
 - Use TypeScript for type-safe props
 - Define `Props` interface in frontmatter
 - Type component imports and helper return values
+- Follow the repository TypeScript style: four-space indentation, single quotes, semicolons, trailing commas where valid, and `type` imports for type-only dependencies.
 - Run `npx astro sync` to (re)generate route/content types before linting or type-checking
 - `.astro` files are type-checked by `npm run typecheck:astro` (which runs `astro sync` then `astro check`), on the classic `typescript` package. The pure TypeScript in `db/`, `src/lib/`, and `src/types/` is type-checked separately by `npm run typecheck` (the native TS 7 compiler, `tsgo`), which does **not** process `.astro` files.
 
@@ -120,3 +139,4 @@ There is no Svelte/React layer. When a page genuinely needs client behaviour, ad
 - Minimize client-side JavaScript — the default is zero JS shipped
 - Import and use global CSS styles from layouts
 - Always include a `data-testid` on interactive elements (see `ui.instructions.md`)
+- Keep comments focused on why a component or interaction is structured a particular way; remove comments that only describe visible markup.

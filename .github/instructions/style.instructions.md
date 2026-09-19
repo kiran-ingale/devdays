@@ -52,3 +52,9 @@ ALL UI components MUST use dark theme colors:
 - Smooth transitions: `transition-all duration-200 ease-in-out`
 - Shadows for depth: `shadow-md`, `shadow-lg`, `shadow-xl`
 - Focus states for accessibility: `focus:ring-2 focus:ring-blue-500`
+
+## TypeScript and comments in UI files
+
+- Use four-space indentation, single quotes, semicolons, trailing commas where valid, and `type` imports for type-only imports in TypeScript sections of `.astro` files.
+- Prefer the existing ESLint rules over manual formatting exceptions.
+- Comments should document design intent, accessibility constraints, or non-obvious responsive behavior. Do not comment obvious utility classes or restate the HTML.
