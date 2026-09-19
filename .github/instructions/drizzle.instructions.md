@@ -55,6 +55,25 @@ export async function getAllGameIds(db: Database): Promise<number[]> {
 - Map raw rows to the app-facing `Game`/`Publisher`/`Category` types in one place; don't leak Drizzle row shapes into components.
 - Keep ordering/lookup logic in `games.ts`, not in pages.
 
+### Exported API Documentation
+
+- Every exported function in `db/` and `src/lib/` requires TSDoc/JSDoc.
+- The documentation must state the function's purpose, include an `@param` tag for every parameter, and include an `@returns` tag describing the returned value. For data-access helpers, explain that `db` is injectable so callers can pass the production client or a test database.
+- Comments should explain intent, invariants, or non-obvious decisions. Do not add comments that merely paraphrase a function body, query, or type.
+- Keep documentation synchronized with implementation changes; stale documentation must be corrected in the same change.
+
+```ts
+/**
+ * Return all games in the deterministic title order used by static pages.
+ *
+ * @param db Injectable Drizzle database client.
+ * @returns Games mapped to the application-facing shape.
+ */
+export async function getAllGames(db: Database): Promise<Game[]> {
+    // ...
+}
+```
+
 ## Determinism
 
 Seed-derived values must be reproducible across builds. Derive star ratings from a stable hash of the title (`ratingFromTitle`) — **never** `Math.random()`.
@@ -70,3 +89,5 @@ Node.js 22.13 or later is required because the data layer uses the built-in `nod
 ## Type checking
 
 The data layer (`db/**/*.ts`, `src/lib/*.ts`) is type-checked by `npm run typecheck`, which runs the native **TypeScript 7** compiler (`tsgo`, from `@typescript/native-preview`) against `tsconfig.tsgo.json`. Keep helpers exported with explicit parameter and return types so `tsgo` can verify them. Linting is unaffected — ESLint + `typescript-eslint` still run on the classic `typescript` package.
+
+Use four-space indentation, single quotes, semicolons, trailing commas where valid, and `type` imports for type-only dependencies. ESLint enforces explicit module-boundary types and the applicable TypeScript style rules.
